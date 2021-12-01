@@ -22,3 +22,8 @@ class Category(Base):
     name = Column(String(45))
     
 
+class Supplier(Base):
+    __tablename__ = 'suppliers'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(45))
