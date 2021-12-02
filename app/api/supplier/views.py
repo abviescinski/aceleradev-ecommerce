@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session, query
 
 from app.db.db import get_db
 from app.models.models import Supplier
-from .schemas  import SupplierSchema, ShowSupplierSchema
+from .schemas import SupplierSchema, ShowSupplierSchema
 
 router = APIRouter()
 
@@ -26,9 +26,8 @@ def update(id: int, supplier: SupplierSchema, db: Session = Depends(get_db)):
     query = db.query(Supplier).filter_by(id=id)
     query.update(supplier.dict())
     db.commit()
-    
+
 
 @router.get('/{id}', response_model=ShowSupplierSchema)
 def show(id: int, db: Session = Depends(get_db)):
     return db.query(Supplier).filter_by(id=id).first()
-
