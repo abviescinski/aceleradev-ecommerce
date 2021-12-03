@@ -52,3 +52,5 @@ class ProductDiscounts(Base):
     value = Column(Float)
     product_id = Column(Integer, ForeignKey('products.id'))
     products = relationship(Product)
+    payment_methods_id = Column(Integer, ForeignKey('payment_methods.id'))
+    payment_methods = relationship(PaymentMethods)

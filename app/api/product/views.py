@@ -1,7 +1,6 @@
 from typing import List
-from fastapi import APIRouter, status
-from fastapi import Depends
-from sqlalchemy.orm import Session, query
+from fastapi import APIRouter, status, Depends
+from sqlalchemy.orm import Session
 
 from app.db.db import get_db
 from app.models.models import Product
