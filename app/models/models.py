@@ -1,9 +1,7 @@
-from ast import Str
+from sqlalchemy import Column
 from sqlalchemy.orm import relationship
-
 from sqlalchemy.sql.schema import ForeignKey
 from app.db.db import Base
-from sqlalchemy import Column
 from sqlalchemy.sql.sqltypes import Boolean, Integer, Float, String
 
 
@@ -26,7 +24,7 @@ class PaymentMethods(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(45))
-    enabled = Column(Boolean)
+    enabled = Column(Boolean, default=True)
 
 
 class Product(Base):
@@ -38,7 +36,7 @@ class Product(Base):
     technical_details = Column(String(255))
     image = Column(String(255))
     visible = Column(Boolean, default=True)
-    categoriy_id = Column(Integer, ForeignKey('categories.id'))
+    category_id = Column(Integer, ForeignKey('categories.id'))
     category = relationship(Category)
     supplier_id = Column(Integer, ForeignKey('suppliers.id'))
     supplier = relationship(Supplier)

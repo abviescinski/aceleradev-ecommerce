@@ -21,7 +21,7 @@ def index(db: Session = Depends(get_db)):
 
 
 @router.put('/{id}')
-def update(id: int, payment_method: PaymentMethods, db: Session = Depends(get_db)):
+def update(id: int, payment_method: PaymentMethodsSchema, db: Session = Depends(get_db)):
     query = db.query(PaymentMethods).filter_by(id=id)
     query.update(payment_method.dict())
     db.commit()

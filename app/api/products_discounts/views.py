@@ -15,7 +15,7 @@ def create(products_discounts: ProductsDiscountsSchema, db: Session = Depends(ge
     db.commit()    
 
 
-@router.get('/', response_model=List[ShowProductsDiscountsSchema])
+@router.get('/')
 def index(db: Session = Depends(get_db)):
     return db.query(ProductDiscounts).all()
 
@@ -27,6 +27,8 @@ def update(id: int, products_discounts: ProductsDiscountsSchema,db: Session = De
     db.commit()
 
 
-@router.get('/{id}', response_model=ShowProductsDiscountsSchema)
+#TODO: desse jeito da linha 31 não funciona, perguntar ao professor.
+#@router.get('/{id}', response_model=ShowProductsDiscountsSchema)
+@router.get('/{id}')
 def show(id: int, db: Session = Depends(get_db)):
     return db.query(ProductDiscounts).filter_by(id=id).first()

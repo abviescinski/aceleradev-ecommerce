@@ -13,13 +13,13 @@ class ProductsDiscountsSchema(BaseModel):
     mode: DiscountMode
     value: float
     product_id: int
-    payment_method_id: int
+    payment_methods_id: int
 
 
 class ShowProductsDiscountsSchema(ProductsDiscountsSchema):
     id: int
     product: ShowProductSchema
-    payment_method: ShowPaymentMethodsSchema
+    payment_methods: ShowPaymentMethodsSchema
 
     class Config:
         orm_mode = True
