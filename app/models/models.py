@@ -1,3 +1,4 @@
+from os import name
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey
@@ -27,6 +28,7 @@ class PaymentMethods(Base):
     enabled = Column(Boolean, default=True)
 
 
+
 class Product(Base):
     __tablename__ = 'products'
 
@@ -52,3 +54,7 @@ class ProductDiscounts(Base):
     products = relationship(Product)
     payment_methods_id = Column(Integer, ForeignKey('payment_methods.id'))
     payment_methods = relationship(PaymentMethods)
+
+    #para mostrar informações do objeto
+    def __repr__(self) -> str:
+        return f'value: {self.value}'
