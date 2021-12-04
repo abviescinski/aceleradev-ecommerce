@@ -1,9 +1,8 @@
-from ast import Str
+from os import name
+from sqlalchemy import Column
 from sqlalchemy.orm import relationship
-
 from sqlalchemy.sql.schema import ForeignKey
 from app.db.db import Base
-from sqlalchemy import Column
 from sqlalchemy.sql.sqltypes import Boolean, Integer, Float, String
 
 
@@ -12,7 +11,7 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(45))
-    
+
 
 class Supplier(Base):
     __tablename__ = 'suppliers'
@@ -26,7 +25,8 @@ class PaymentMethods(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(45))
-    enabled = Column(Boolean)
+    enabled = Column(Boolean, default=True)
+
 
 
 class Product(Base):
@@ -38,7 +38,7 @@ class Product(Base):
     technical_details = Column(String(255))
     image = Column(String(255))
     visible = Column(Boolean, default=True)
-    categoriy_id = Column(Integer, ForeignKey('categories.id'))
+    category_id = Column(Integer, ForeignKey('categories.id'))
     category = relationship(Category)
     supplier_id = Column(Integer, ForeignKey('suppliers.id'))
     supplier = relationship(Supplier)
@@ -52,3 +52,9 @@ class ProductDiscounts(Base):
     value = Column(Float)
     product_id = Column(Integer, ForeignKey('products.id'))
     products = relationship(Product)
+    payment_methods_id = Column(Integer, ForeignKey('payment_methods.id'))
+    payment_methods = relationship(PaymentMethods)
+
+    #para mostrar informações do objeto
+    def __repr__(self) -> str:
+        return f'value: {self.value}'

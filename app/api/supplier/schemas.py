@@ -6,7 +6,7 @@ class SupplierSchema(BaseModel):
 
 
 class ShowSupplierSchema(SupplierSchema):
-    id: int 
+    id: int
 
     class Config:
         orm_mode = True

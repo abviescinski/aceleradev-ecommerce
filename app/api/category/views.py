@@ -3,7 +3,6 @@ from fastapi import APIRouter, status, Depends
 from sqlalchemy.orm import Session, query
 
 from app.api.category.schemas import CategorySchema, ShowCategorySchema
-from app.api.product.schemas import ProductSchema
 from app.db.db import get_db
 from app.models.models import Category
 
@@ -22,9 +21,9 @@ def index(db: Session = Depends(get_db)):
 
 
 @router.put('/{id}')
-def update(id: int, product: ProductSchema, db: Session = Depends(get_db)):
+def update(id: int, category: CategorySchema, db: Session = Depends(get_db)):
     query = db.query(Category).filter_by(id=id)
-    query.update(product.dict())
+    query.update(category.dict())
     db.commit()
 
 

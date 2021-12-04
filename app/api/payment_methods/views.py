@@ -8,6 +8,7 @@ from app.models.models import PaymentMethods
 
 router = APIRouter()
 
+
 @router.post('/', status_code=status.HTTP_201_CREATED)
 def create(payment_method: PaymentMethodsSchema, db: Session = Depends(get_db)):
     db.add(PaymentMethods(**payment_method.dict()))
@@ -20,12 +21,12 @@ def index(db: Session = Depends(get_db)):
 
 
 @router.put('/{id}')
-def update(id: int, payment_method: PaymentMethods, db: Session = Depends(get_db)):
+def update(id: int, payment_method: PaymentMethodsSchema, db: Session = Depends(get_db)):
     query = db.query(PaymentMethods).filter_by(id=id)
     query.update(payment_method.dict())
     db.commit()
 
 
 @router.get('/{id}', response_model=ShowPaymentMethodsSchema)
-def show(id:int, db: Session = Depends(get_db)):
+def show(id: int, db: Session = Depends(get_db)):
     return db.query(PaymentMethods).filter_by(id=id).first()

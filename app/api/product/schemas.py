@@ -2,8 +2,6 @@ from pydantic import BaseModel
 from app.api.supplier.schemas import ShowSupplierSchema
 from app.api.category.schemas import ShowCategorySchema
 
-from app.models.models import Category
-
 
 class ProductSchema(BaseModel):
     description: str
@@ -16,10 +14,9 @@ class ProductSchema(BaseModel):
 
 
 class ShowProductSchema(ProductSchema):
-    id: int 
+    id: int
     category: ShowCategorySchema
     supplier: ShowSupplierSchema
 
     class Config:
         orm_mode = True
-
