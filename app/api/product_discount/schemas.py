@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from enum import Enum
 from app.api.product.schemas import ShowProductSchema
-from app.api.payment_methods.schemas import ShowPaymentMethodsSchema
+from app.api.payment_method.schemas import ShowPaymentMethodSchema
 
 
 class DiscountMode(str, Enum):
@@ -9,17 +9,17 @@ class DiscountMode(str, Enum):
     percentage = 'percentage'
 
 
-class ProductsDiscountsSchema(BaseModel):
+class ProductDiscountSchema(BaseModel):
     mode: DiscountMode
     value: float
     product_id: int
-    payment_methods_id: int
+    payment_method_id: int
 
 
-class ShowProductsDiscountsSchema(ProductsDiscountsSchema):
+class ShowProductDiscountSchema(ProductDiscountSchema):
     id: int
     product: ShowProductSchema
-    payment_methods: ShowPaymentMethodsSchema
+    payment_method: ShowPaymentMethodSchema
 
     class Config:
         orm_mode = True

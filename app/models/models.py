@@ -20,8 +20,8 @@ class Supplier(Base):
     name = Column(String(45))
 
 
-class PaymentMethods(Base):
-    __tablename__ = 'payment_methods'
+class PaymentMethod(Base):
+    __tablename__ = 'payment_method'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(45))
@@ -44,16 +44,16 @@ class Product(Base):
     supplier = relationship(Supplier)
 
 
-class ProductDiscounts(Base):
-    __tablename__ = 'product_discounts'
+class ProductDiscount(Base):
+    __tablename__ = 'product_discount'
 
     id = Column(Integer, primary_key=True)
     mode = Column(String(45))
     value = Column(Float)
     product_id = Column(Integer, ForeignKey('products.id'))
     products = relationship(Product)
-    payment_methods_id = Column(Integer, ForeignKey('payment_methods.id'))
-    payment_methods = relationship(PaymentMethods)
+    payment_method_id = Column(Integer, ForeignKey('payment_method.id'))
+    payment_method = relationship(PaymentMethod)
 
     #para mostrar informações do objeto
     def __repr__(self) -> str:
