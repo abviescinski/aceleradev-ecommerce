@@ -1,33 +1,28 @@
 from typing import List
 from fastapi import APIRouter, status
 from fastapi import Depends
-from sqlalchemy.orm import Session, query
-
-from app.db.db import get_db
 from app.models.models import Supplier
+from app.repositories.supplier_repository import SupplierRepository
 from .schemas import SupplierSchema, ShowSupplierSchema
 
 router = APIRouter()
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-def create(supplier: SupplierSchema, db: Session = Depends(get_db)):
-    db.add(Supplier(**supplier.dict()))
-    db.commit()
+def create(supplier: SupplierSchema, repository: SupplierRepository = Depends()):
+    repository.create(Supplier(**supplier.dict()))
 
 
 @router.get('/', response_model=List[ShowSupplierSchema])
-def index(db: Session = Depends(get_db)):
-    return db.query(Supplier).all()
+def index(repository: SupplierRepository = Depends()):
+    return repository.get_all()
 
 
 @router.put('/{id}')
-def update(id: int, supplier: SupplierSchema, db: Session = Depends(get_db)):
-    query = db.query(Supplier).filter_by(id=id)
-    query.update(supplier.dict())
-    db.commit()
+def update(id: int, supplier: SupplierSchema, repository: SupplierRepository = Depends()):
+    repository.update(id, supplier.dict())
 
 
 @router.get('/{id}', response_model=ShowSupplierSchema)
-def show(id: int, db: Session = Depends(get_db)):
-    return db.query(Supplier).filter_by(id=id).first()
+def show(id: int, repository: SupplierRepository = Depends()):
+    return repository.get_by_id(id=id)

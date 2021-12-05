@@ -1,12 +1,12 @@
 from pydantic import BaseModel
 
 
-class PaymentMethodsSchema(BaseModel):
+class PaymentMethodSchema(BaseModel):
     name: str
     enabled: bool
 
 
-class ShowPaymentMethodsSchema(PaymentMethodsSchema):
+class ShowPaymentMethodSchema(PaymentMethodSchema):
     id: int
 
     class Config:
