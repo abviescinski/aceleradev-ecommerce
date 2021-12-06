@@ -1,9 +1,11 @@
 from os import name
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql.functions import mode
 from sqlalchemy.sql.schema import ForeignKey
+from sqlalchemy.sql import func
 from app.db.db import Base
-from sqlalchemy.sql.sqltypes import Boolean, Integer, Float, String
+from sqlalchemy.sql.sqltypes import Boolean, DateTime, Integer, Float, String
 
 
 class Category(Base):
@@ -26,7 +28,6 @@ class PaymentMethod(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(45))
     enabled = Column(Boolean, default=True)
-
 
 
 class Product(Base):
@@ -55,6 +56,17 @@ class ProductDiscount(Base):
     payment_method_id = Column(Integer, ForeignKey('payment_method.id'))
     payment_method = relationship(PaymentMethod)
 
-    #para mostrar informações do objeto
+    # para mostrar informações do objeto
     def __repr__(self) -> str:
         return f'value: {self.value}'
+
+
+class Coupon(Base):
+    __tablename__ = 'coupon'
+
+    id = Column(Integer, primary_key=True)
+    mode = Column(String(45))
+    code = Column(String(10))
+    expire_at = Column(DateTime)
+    limit = Column(Integer)
+    value = Column(Float)

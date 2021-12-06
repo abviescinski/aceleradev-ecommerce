@@ -12,7 +12,6 @@ def create(discount: ProductDiscountSchema, service: ProductDiscountService = De
     service.create_discount(discount)
 
 
-
 @router.get('/')
 def index(repository: ProductDiscountRepository = Depends()):
     return repository.get_all()
@@ -30,6 +29,6 @@ def show(id: int, repository: ProductDiscountRepository = Depends()):
     return repository.get_by_id(id=id)
 
 
-@router.delete('/{id}', status_code=status.HTTP_410_GONE)
+@router.delete('/{id}', status_code=status.HTTP_200_OK)
 def delete(id: int, repository: ProductDiscountRepository = Depends()):
     repository.delete(id=id)
