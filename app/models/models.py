@@ -43,6 +43,7 @@ class Product(Base):
     category = relationship(Category)
     supplier_id = Column(Integer, ForeignKey('suppliers.id'))
     supplier = relationship(Supplier)
+    created_at = Column(DateTime)
 
 
 class ProductDiscount(Base):
