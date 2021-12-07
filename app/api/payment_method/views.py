@@ -6,8 +6,9 @@ from app.api.payment_method.schemas import PaymentMethodSchema, ShowPaymentMetho
 from app.db.db import get_db
 from app.models.models import PaymentMethod
 from app.repositories.payment_method_repository import PaymentMethodRepository
+from app.services.auth_service import only_admin
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(only_admin)])
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
