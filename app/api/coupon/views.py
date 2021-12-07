@@ -4,11 +4,10 @@ from app.models.models import Coupon
 
 from app.repositories.coupons_repository import CouponRepository
 from app.services.coupons_service import CouponService
-
 from .schemas import CouponSchema, CouponSchemaUpdate, ShowCouponSchema
+from app.services.auth_service import only_admin
 
-
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(only_admin)])
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)

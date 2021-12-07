@@ -3,8 +3,9 @@ from app.api.product_discount.schemas import ProductDiscountSchema
 from app.models.models import ProductDiscount
 from app.repositories.product_discount_repository import ProductDiscountRepository
 from app.services.product_discount_service import ProductDiscountService
+from app.services.auth_service import only_admin
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(only_admin)])
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)

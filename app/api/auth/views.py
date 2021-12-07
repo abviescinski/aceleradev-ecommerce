@@ -1,28 +1,21 @@
 from fastapi import APIRouter, HTTPException, status
 from fastapi.param_functions import Depends
-from fastapi.security import OAuth2PasswordBearer
-from fastapi.security.oauth2 import OAuth2PasswordRequestForm
-from app.repositories.user_repository import UserRespository
-from app.services.auth_service import create_token
-import bcrypt
+from app.api.auth.schema import ShowUserSchema
+from app.models.models import User
+from app.services.auth_service import authenticate, get_user
+
 
 router = APIRouter()
 
-oauth_scheme = OAuth2PasswordBearer(tokenUrl='/auth/login')
 
-
-@router.get('/')
-def index(token: str = Depends(oauth_scheme)):
-    return {'hello': True}
+@router.get('/me', response_model=ShowUserSchema)
+def index(user: User = Depends(get_user)):
+    return user
 
 
 @router.post('/login')
-def login(form_data: OAuth2PasswordRequestForm = Depends(), user_repository: UserRespository = Depends()):
-    user = user_repository.find_by_email(form_data.username)
-    if not user:
+def login(token: str = Depends(authenticate)):
+    if not token:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-                            detail='User not found with this username.')
-    if not bcrypt.checkpw(form_data.password.encode('utf8'), user.password):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail='The password id invalid.')
-    return {'access_token': create_token({'id': user.id}), 'token_type': 'bearer'}
+                            detail='This credentials are invalid.')
+    return {'access_token': token, 'token_type': 'bearer'}
