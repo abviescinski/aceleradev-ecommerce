@@ -5,7 +5,7 @@ from sqlalchemy.sql.functions import mode
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql import func
 from app.db.db import Base
-from sqlalchemy.sql.sqltypes import Boolean, DateTime, Integer, Float, String
+from sqlalchemy.sql.sqltypes import Boolean, Date, DateTime, Integer, Float, String
 
 
 class Category(Base):
@@ -43,6 +43,7 @@ class Product(Base):
     category = relationship(Category)
     supplier_id = Column(Integer, ForeignKey('suppliers.id'))
     supplier = relationship(Supplier)
+    created_at = Column(DateTime)
 
 
 class ProductDiscount(Base):
@@ -70,3 +71,30 @@ class Coupon(Base):
     expire_at = Column(DateTime)
     limit = Column(Integer)
     value = Column(Float)
+
+
+class Customer(Base):
+    __tablename__ = 'customer'
+
+    id = Column(Integer, primary_key=True)
+    first_name = Column(String(45))
+    last_name = Column(String(45))
+    phone_number = Column(String(45))
+    genre = Column(String(45))
+    cpf_cnpj = Column(String(45))
+    birth_date = Column(Date)
+
+
+class Address(Base):
+    __tablename__ = 'address'
+
+    id = Column(Integer, primary_key=True)
+    address = Column(String)
+    city = Column(String(45))
+    state = Column(String(2))
+    number = Column(String(10))
+    zipcode = Column(String(6))
+    neighbourhood = Column(String(45))
+    primary = Column(Boolean)
+    customer_id = Column(Integer, ForeignKey('customer.id'))
+    customer = relationship(Customer)
