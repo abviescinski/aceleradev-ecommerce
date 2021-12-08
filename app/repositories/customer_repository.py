@@ -1,7 +1,8 @@
+from typing import Union
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from app.db.db import get_db
-from app.models.models import Customer
+from app.models.models import Customer, User
 from .base_repository import BaseRepository
 
 

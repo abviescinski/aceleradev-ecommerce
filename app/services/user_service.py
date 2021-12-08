@@ -5,7 +5,6 @@ from fastapi import Depends, HTTPException, status
 
 from app.api.user.schemas import UserSchema
 from app.api.admin.schemas import AdminSchema
-from app.db.db import get_db
 from app.models.models import User
 from app.repositories.user_repository import UserRepository
 

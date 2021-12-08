@@ -1,5 +1,5 @@
 from fastapi import APIRouter, status, Depends
-from app.api.product_discount.schemas import ProductDiscountSchema
+from app.api.product_discount.schemas import ProductDiscountSchema, ShowProductDiscountSchema
 from app.models.models import ProductDiscount
 from app.repositories.product_discount_repository import ProductDiscountRepository
 from app.services.product_discount_service import ProductDiscountService
@@ -24,8 +24,8 @@ def update(id: int, discount: ProductDiscountSchema, repository: ProductDiscount
 
 
 # TODO: desse jeito da linha 31 não funciona, perguntar ao professor.
-# @router.get('/{id}', response_model=ShowProductsDiscountsSchema)
-@router.get('/{id}')
+@router.get('/{id}', response_model=ShowProductDiscountSchema)
+# @router.get('/{id}')
 def show(id: int, repository: ProductDiscountRepository = Depends()):
     return repository.get_by_id(id=id)
 
