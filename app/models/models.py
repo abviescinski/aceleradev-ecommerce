@@ -73,6 +73,20 @@ class Coupon(Base):
     value = Column(Float)
 
 
+class User(Base):
+    __tablename__ = 'user'
+
+    id = Column(Integer, primary_key=True)
+    display_name = Column(String(100))
+    email = Column(String(50))
+    role = Column(String(10))
+    password = Column(String(100))
+
+    # para mostrar informações do objeto
+    def __repr__(self) -> str:
+        return f'id: {self.id}, email: {self.email}'
+
+
 class Customer(Base):
     __tablename__ = 'customer'
 
@@ -83,6 +97,12 @@ class Customer(Base):
     genre = Column(String(45))
     cpf_cnpj = Column(String(45))
     birth_date = Column(Date)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
+
+    # para mostrar informações do objeto
+    def __repr__(self) -> str:
+        return f'id: {self.id}, user_id: {self.user_id}, first_name: {self.first_name}'
 
 
 class Address(Base):
@@ -98,14 +118,3 @@ class Address(Base):
     primary = Column(Boolean)
     customer_id = Column(Integer, ForeignKey('customer.id'))
     customer = relationship(Customer)
-
-
-
-class User(Base):
-    __tablename__ = 'user'
-
-    id = Column(Integer, primary_key=True)
-    display_name = Column(String(100))
-    email = Column(String(50))
-    role = Column(String(10))
-    password = Column(String(100))

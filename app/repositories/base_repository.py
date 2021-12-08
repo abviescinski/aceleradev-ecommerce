@@ -1,9 +1,10 @@
+from sqlalchemy.orm.session import Session
 from app.models.models import Base
 
 
 class BaseRepository:
 
-    def __init__(self, session, model):
+    def __init__(self, session: Session, model):
         self.session = session
         self.model = model
 
@@ -13,8 +14,11 @@ class BaseRepository:
     def create(self, model: Base):
         self.session.add(model)
         self.session.commit()
+        self.session.refresh(model)
+        return model
 
     def update(self, id: int, attributes: dict):
+        print("attributes:", attributes)
         self.session.query(self.model).filter_by(id=id).update(attributes)
         self.session.commit()
 
