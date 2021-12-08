@@ -9,6 +9,7 @@ from .address.views import router as address_router
 from .customer.views import router as customer_router
 from .auth.views import router as auth_router
 from .user.views import router as user_router
+from .admin.views import router as admin_router
 
 router = APIRouter()
 
@@ -24,3 +25,4 @@ router.include_router(address_router, prefix='/address', tags=['address'])
 router.include_router(customer_router, prefix='/customer', tags=['customer'])
 router.include_router(auth_router, prefix='/auth', tags=['auth'])
 router.include_router(user_router, prefix='/user', tags=['user'])
+router.include_router(admin_router, prefix='/admin', tags=['admin'])
