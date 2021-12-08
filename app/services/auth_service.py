@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jwt.exceptions import ExpiredSignatureError
 
 
-from app.repositories.user_repository import UserRespository
+from app.repositories.user_repository import UserRepository
 from app.models.models import User
 
 JWT_SECRET = 'SECRET'
@@ -27,7 +27,7 @@ def create_token(data: dict, expire_delta=None):
     return jwt.encode(payload, JWT_SECRET, ALGORITHM)
 
 
-def authenticate(form_data: OAuth2PasswordRequestForm = Depends(), user_repository: UserRespository = Depends()):
+def authenticate(form_data: OAuth2PasswordRequestForm = Depends(), user_repository: UserRepository = Depends()):
     user = user_repository.find_by_email(form_data.username)
     if not user:
         return False
@@ -36,7 +36,7 @@ def authenticate(form_data: OAuth2PasswordRequestForm = Depends(), user_reposito
     return create_token({'id': user.id})
 
 
-def get_user(token: str = Depends(oauth_scheme), user_repository: UserRespository = Depends()):
+def get_user(token: str = Depends(oauth_scheme), user_repository: UserRepository = Depends()):
     try:
         payload = jwt.decode(token, JWT_SECRET, algorithms=ALGORITHM)
         user = user_repository.get_by_id(payload['id'])
