@@ -10,7 +10,7 @@ class CouponRepository(BaseRepository):
         super().__init__(session, Coupon)
         self.session = session
 
-    def is_duplicate(self, coupon_code: str):
+    def get_by_code(self, coupon_code: str):
         return self.session.query(self.model).filter_by(code=coupon_code).first()
 
     def update(self, id: int, attributes: dict):

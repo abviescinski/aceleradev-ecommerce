@@ -9,3 +9,6 @@ class OrderRepository(BaseRepository):
     def __init__(self, session: Session = Depends(get_db)):
         super().__init__(session, Order)
         self.session = session
+
+    def check_number(self, number: str):
+        return self.session.query(self.model).filter_by(number=number).first()

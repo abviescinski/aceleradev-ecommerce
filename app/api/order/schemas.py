@@ -1,49 +1,39 @@
-from datetime import datetime
 from pydantic import BaseModel
 from enum import Enum
-
-from app.api.customer.schemas import ShowCustomerSchema
+from typing import List, Optional
 from app.api.address.schemas import ShowAddressSchema
 from app.api.payment_method.schemas import ShowPaymentMethodSchema
 
+
 class OrderStatus(str, Enum):
-    ORDER_PLACED = 'order_placed'
-    ORDER_PAID = 'order_paid'
-    ORDER_SHIPPED = 'order_shipped'
-    ORDER_RECEIVED = 'order_received'
-    ORDER_COMPLETED = 'order_completed'
-    ORDER_CANCELLED = 'order_cancelled'
+    ORDER_PLACED = 'ORDER PLACED'
+    ORDER_PAID = 'ORDED PAID'
+    ORDER_SHIPPED = 'ORDER SHIPPED'
+    ORDER_RECEIVED = 'ORDER RECEIVED'
+    ORDER_COMPLETED = 'ORDER COMPLETED'
+    ORDER_CANCELLED = 'ORDER CANCELLED'
+
+
+class OrderStatusesSchema(BaseModel):
+    status: OrderStatus
+    order_id: int
+
+
+class OrderProductSchema(BaseModel):
+    quantity: int
+    product_id: int
+
 
 class OrderSchema(BaseModel):
-    number: str
-    status: OrderStatus
-    create_at: datetime
-    total_value: float
-    total_discount: float
-    customer_id: int
     address_id: int
     payment_method_id: int
+    coupon_code: Optional[str] = None
+    products: List[OrderProductSchema]
 
 
 class ShowOrderSchema(OrderSchema):
-    customer: ShowCustomerSchema
     address: ShowAddressSchema
     payment_method: ShowPaymentMethodSchema
 
     class Config:
         orm_mode = True
-
-
-#------------------------------------------------------------
-
-class OrderStatusesSchema(BaseModel):
-    status:OrderStatus
-    create_at: datetime
-    order_id: int
-
-
-class OrderProductSchema(BaseModel):
-    quantity:int
-    order_id:int
-    product:int
-

@@ -12,6 +12,6 @@ class CouponService:
     def create_coupon(self, coupon: CouponSchema):
         if coupon.code is None or coupon.code == 'string':
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='Coupon Code Invalid.')
-        if self.coupon_repository.is_duplicate(coupon_code=coupon.code):
+        if self.coupon_repository.get_by_code(coupon_code=coupon.code):
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail='Coupon Code Already Exists')
         self.coupon_repository.create(Coupon(**coupon.dict()))

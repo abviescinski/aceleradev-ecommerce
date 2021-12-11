@@ -42,10 +42,17 @@ def get_user(token: str = Depends(oauth_scheme), user_repository: UserRepository
         user = user_repository.get_by_id(payload['id'])
         return user
     except ExpiredSignatureError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='This token has expired.')
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail='This token has expired.')
 
 
 def only_admin(user: User = Depends(get_user)):
     if not user.role == 'admin':
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail='Allowed only for admin.')
+
+
+def only_customer(user: User = Depends(get_user)):
+    if not user.role == 'customer':
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail='Allowed only for customer.')

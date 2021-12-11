@@ -21,3 +21,6 @@ class ProductDiscountRepository(BaseRepository):
 
     def get_payment_method_in_discount(self, payment_method_id: int):
         return self.session.query(self.model).filter_by(payment_method_id=payment_method_id).first()
+
+    def get_payment_product(self,payment_method_id: int, product_id: int):
+        return self.session.query(self.model).filter_by(payment_method_id=payment_method_id, product_id=product_id).first()

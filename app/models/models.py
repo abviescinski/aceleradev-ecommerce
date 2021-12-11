@@ -45,6 +45,10 @@ class Product(Base):
     supplier = relationship(Supplier)
     created_at = Column(DateTime)
 
+    # para mostrar informações do objeto
+    def __repr__(self) -> str:
+        return f'description: {self.description}, price: {self.price}'
+
 
 class ProductDiscount(Base):
     __tablename__ = 'product_discount'
