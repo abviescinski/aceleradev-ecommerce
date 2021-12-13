@@ -140,6 +140,12 @@ class Order(Base):
     payment_method_id = Column(Integer, ForeignKey('payment_method.id'))
     payment_method = relationship(PaymentMethod)
 
+    # para mostrar informações do objeto
+    def __repr__(self) -> str:
+        return f'id: {self.id}, number: {self.number}'
+
+
+
 
 class OrderStatuses(Base):
     __tablename__ = 'order_statuses'

@@ -51,15 +51,14 @@ class OrderService:
         self.order.customer_id = customer_id
         self.order.address_id = order.address_id
         self.order.payment_method_id = order.payment_method_id
-        order__ = self.order_repository.create(self.order)
+        order_db = self.order_repository.create(self.order)
         # TODO: descontar produtos comprados e cupom utilizado
         #TODO: não to usando a tabela order_products
-        self.generate_order_status(order__.id, "ORDER PLACED")
+        self.generate_order_status(order_db.id, "ORDER PLACED")
         self.order_statuses_repository.create(self.order_status)
 
     def create_status_order(self, id: int, order_status: OrderStatusesSchema):
-        #TODO: o campo status da order não tá sendo alterado
-        #TODO: o campo create at em order_statuses não tá com dados
+        self.change_status_order(order_status.status, order_status.order_id)
         self.order_statuses_repository.create(
             OrderStatuses(**order_status.dict()))
 
@@ -100,11 +99,9 @@ class OrderService:
         value = 0
         for product in products_list:
             query = self.products_repository.get_by_id(product.product_id)
-            print("query: ", query)
             if not query:
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND, detail='Product not found.')
-
             value += query.price * product.quantity
         return value
 
@@ -118,7 +115,18 @@ class OrderService:
         self.order_status.order_id = order_id
         self.order_status.status = status
         self.order_status.create_at = datetime.now()
-
         return self.order_status
 
     # TODO: implementar verificação se o endereço é o mesmo do customer
+
+    def change_status_order(self, status: str, order_id: int):
+        order = self.order_repository.get_by_id(id=order_id)
+        print('Order: ', order)
+        if not order:
+            raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND, detail='Order not found.')
+        order.status = status
+        self.order_repository.update_status(order_id, order.__dict__.copy())
+        
+
+

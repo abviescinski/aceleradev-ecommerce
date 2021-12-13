@@ -12,3 +12,10 @@ class OrderRepository(BaseRepository):
 
     def check_number(self, number: str):
         return self.session.query(self.model).filter_by(number=number).first()
+
+    def get_by_id_dict(self, id: int):
+        return self.session.query(self.model).filter_by(id=id).first()
+
+    def update_status(self, id: int, order: dict):
+        order.pop('_sa_instance_state')
+        super().update(id, order)

@@ -18,7 +18,6 @@ class BaseRepository:
         return model
 
     def update(self, id: int, attributes: dict):
-        print("attributes:", attributes)
         self.session.query(self.model).filter_by(id=id).update(attributes)
         self.session.commit()
 

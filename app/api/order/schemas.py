@@ -7,7 +7,7 @@ from app.api.payment_method.schemas import ShowPaymentMethodSchema
 
 class OrderStatus(str, Enum):
     ORDER_PLACED = 'ORDER PLACED'
-    ORDER_PAID = 'ORDED PAID'
+    ORDER_PAID = 'ORDER PAID'
     ORDER_SHIPPED = 'ORDER SHIPPED'
     ORDER_RECEIVED = 'ORDER RECEIVED'
     ORDER_COMPLETED = 'ORDER COMPLETED'
