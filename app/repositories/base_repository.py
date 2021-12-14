@@ -20,6 +20,7 @@ class BaseRepository:
     def update(self, id: int, attributes: dict):
         self.session.query(self.model).filter_by(id=id).update(attributes)
         self.session.commit()
+        return self.session.query(self.model).filter_by(id=id).first()
 
     def get_by_id(self, id: int):
         return self.session.query(self.model).filter_by(id=id).first()
