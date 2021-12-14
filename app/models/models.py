@@ -11,21 +11,21 @@ from sqlalchemy.sql.sqltypes import Boolean, Date, DateTime, Integer, Float, Str
 class Category(Base):
     __tablename__ = 'categories'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(45))
 
 
 class Supplier(Base):
     __tablename__ = 'suppliers'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(45))
 
 
 class PaymentMethod(Base):
     __tablename__ = 'payment_method'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(45))
     enabled = Column(Boolean, default=True)
 
@@ -33,7 +33,7 @@ class PaymentMethod(Base):
 class Product(Base):
     __tablename__ = 'products'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     description = Column(String(150))
     price = Column(Float(10, 2))
     technical_details = Column(String(255))
@@ -53,7 +53,7 @@ class Product(Base):
 class ProductDiscount(Base):
     __tablename__ = 'product_discount'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     mode = Column(String(45))
     value = Column(Float)
     product_id = Column(Integer, ForeignKey('products.id'))
@@ -69,7 +69,7 @@ class ProductDiscount(Base):
 class Coupon(Base):
     __tablename__ = 'coupon'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     mode = Column(String(45))
     code = Column(String(10))
     expire_at = Column(DateTime)
@@ -80,7 +80,7 @@ class Coupon(Base):
 class User(Base):
     __tablename__ = 'user'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     display_name = Column(String(100))
     email = Column(String(50))
     role = Column(String(10))
@@ -94,7 +94,7 @@ class User(Base):
 class Customer(Base):
     __tablename__ = 'customer'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     first_name = Column(String(45))
     last_name = Column(String(45))
     phone_number = Column(String(45))
@@ -112,7 +112,7 @@ class Customer(Base):
 class Address(Base):
     __tablename__ = 'address'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     address = Column(String)
     city = Column(String(45))
     state = Column(String(2))
@@ -127,7 +127,7 @@ class Address(Base):
 class Order(Base):
     __tablename__ = 'order'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     number = Column(String(10))
     status = Column(String(15))
     create_at = Column(DateTime)
@@ -150,7 +150,7 @@ class Order(Base):
 class OrderStatuses(Base):
     __tablename__ = 'order_statuses'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     status = Column(String(15))
     create_at = Column(DateTime)
     order_id = Column(Integer, ForeignKey('order.id'))
@@ -160,7 +160,7 @@ class OrderStatuses(Base):
 class OrderProducts(Base):
     __tablename__ = 'order_products'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     quantity = Column(Integer)
     order_id = Column(Integer, ForeignKey('order.id'))
     order = relationship(Order)

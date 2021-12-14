@@ -9,9 +9,9 @@ from .schemas import ProductSchema, ShowProductSchema
 router = APIRouter(dependencies=[Depends(only_admin)])
 
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
+@router.post('/', status_code=status.HTTP_201_CREATED, response_model=ShowProductSchema)
 def create(product: ProductSchema, repository: ProductRepository = Depends()):
-    repository.create(Product(**product.dict()))
+    return repository.create(Product(**product.dict()))
 
 
 @router.get('/', response_model=List[ShowProductSchema])

@@ -21,7 +21,7 @@ def create_token(data: dict, expire_delta=None):
     if expire_delta:
         expire = datetime.utcnow() + expire_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=60)
+        expire = datetime.utcnow() + timedelta(days=365)
 
     payload.update({'exp': expire})
     return jwt.encode(payload, JWT_SECRET, ALGORITHM)
