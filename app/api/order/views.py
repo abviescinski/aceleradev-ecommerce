@@ -10,8 +10,9 @@ from app.repositories.order_repository import OrderRepository
 router = APIRouter()
 
 @router.post('/', status_code=status.HTTP_201_CREATED, dependencies=[Depends(only_customer)])
+#@router.post('/', status_code=status.HTTP_201_CREATED)
 def create(order: OrderSchema, service: OrderService = Depends(), customer: Customer = Depends(get_user)):
-    service.create_order(order, customer.id)
+    return service.create_order(order, customer.id)
 
 #@router.get('/', response_model=List[ShowOrderSchema]) #TODO: quando deixa assim dá erro de typing
 @router.get('/')

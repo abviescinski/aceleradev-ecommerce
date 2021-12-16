@@ -88,7 +88,7 @@ class User(Base):
 
     # para mostrar informações do objeto
     def __repr__(self) -> str:
-        return f'id: {self.id}, email: {self.email}'
+        return f'id: {self.id}, email: {self.email}, role: {self.role}'
 
 
 class Customer(Base):

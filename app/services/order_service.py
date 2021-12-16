@@ -56,6 +56,7 @@ class OrderService:
         #TODO: não to usando a tabela order_products
         self.generate_order_status(order_db.id, "ORDER PLACED")
         self.order_statuses_repository.create(self.order_status)
+        return str(self.order)
 
     def create_status_order(self, id: int, order_status: OrderStatusesSchema):
         self.change_status_order(order_status.status, order_status.order_id)
@@ -72,7 +73,7 @@ class OrderService:
 
     def validation_coupon(self, coupon_code: str):
         coupon = self.coupon_repository.get_by_code(coupon_code)
-        if not coupon.limit or coupon.expire_at < datetime.utcnow():
+        if not coupon.limit or coupon.expire_at < datetime.now():
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                                 detail='Coupon Invalid.')
         return coupon

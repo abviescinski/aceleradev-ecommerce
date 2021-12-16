@@ -1,3 +1,4 @@
+import datetime
 import pytest
 import factory
 from fastapi.testclient import TestClient
@@ -6,6 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from app.db.db import get_db
 from app.models.models import Base, Address, Coupon, Customer, Order, PaymentMethod, Product, ProductDiscount, Category, Supplier, User
 from app.app import app
+from datetime import datetime, timedelta
 
 
 @pytest.fixture()
@@ -71,7 +73,7 @@ def user_factory(db_session):
         id = None
         display_name = factory.Faker('name')
         email = factory.Faker('email')
-        role = None
+        role = factory.Faker('word')
         password = '$2b$12$FFf8bbgLa8O1ycQY6UWa2eW9G7HEXVawjm/CLJ2nZQVRvrAYwpjH6'
 
     return UserFactory
@@ -91,8 +93,7 @@ def admin_auth_header(user_admin_token):
 
 @pytest.fixture()
 def user_customer_token(user_factory):
-    user_factory(role='customer',
-                 password='$2b$12$YuYlGDv6Hid0pSwzLALyU.N/od4Lp28tXSoR9rbxvx9cNJesNNqtq')
+    user_factory(id=2, email='cliente1@email', role='customer', password='$2b$12$YuYlGDv6Hid0pSwzLALyU.N/od4Lp28tXSoR9rbxvx9cNJesNNqtq')
 
     return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwiZXhwIjoxNjcxMjAwMTQ0fQ.tYpFXtY8jtNj5dw-ayxSF4zZkUs3U6H2OrNySTSrYNA'
 
@@ -128,7 +129,7 @@ def customer_factory(db_session, user_factory):
             model = Customer
             sqlalchemy_session = db_session
 
-        id = None
+        id = factory.Sequence(int)
         first_name = factory.Faker('first_name')
         last_name = factory.Faker('last_name')
         phone_number = factory.Faker('phone_number')
@@ -147,7 +148,7 @@ def address_factory(db_session, customer_factory):
             model = Address
             sqlalchemy_session = db_session
 
-        id = None
+        id = factory.Sequence(int)
         address = factory.Faker('street_name')
         city = factory.Faker('city')
         # TODO: verificar porque state(2)
@@ -168,10 +169,10 @@ def coupon_factory(db_session):
             model = Coupon
             sqlalchemy_session = db_session
 
-        id = None
+        id = factory.Sequence(int)
         mode = 'value'
         code = factory.Faker('pyint')
-        expire_at = factory.Faker('future_date')
+        expire_at = datetime.now()+timedelta(days=10)
         limit = factory.Faker('pyint')
 
     return CouponFactory
@@ -184,7 +185,7 @@ def payment_method_factory(db_session):
             model = PaymentMethod
             sqlalchemy_session = db_session
 
-        id = None
+        id = factory.Sequence(int)
         name = factory.Faker('credit_card_provider')
         enabled = True
 
@@ -198,7 +199,7 @@ def product_discount_factory(db_session, product_factory, payment_method_factory
             model = ProductDiscount
             sqlalchemy_session = db_session
 
-        id = None
+        id = factory.Sequence(int)
         mode = 'value'
         value = 10
         product = factory.SubFactory(product_factory)
@@ -214,7 +215,7 @@ def order_factory(db_session, customer_factory, address_factory, payment_method_
             model = Order
             sqlalchemy_session = db_session
 
-        id = None
+        id = factory.Sequence(int)
         number = factory.Faker('pyint')
         status = 'ORDER PLACED'
         create_at = factory.Faker('date_time')

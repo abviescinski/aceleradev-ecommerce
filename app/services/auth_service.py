@@ -53,6 +53,7 @@ def only_admin(user: User = Depends(get_user)):
 
 
 def only_customer(user: User = Depends(get_user)):
+    print(user)
     if not user.role == 'customer':
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail='Allowed only for customer.')
