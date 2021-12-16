@@ -145,8 +145,6 @@ class Order(Base):
         return f'id: {self.id}, number: {self.number}'
 
 
-
-
 class OrderStatuses(Base):
     __tablename__ = 'order_statuses'
 

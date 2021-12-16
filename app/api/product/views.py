@@ -21,7 +21,7 @@ def index(repository: ProductRepository = Depends()):
 
 @router.put('/{id}')
 def update(id: int, product: ProductSchema, repository: ProductRepository = Depends()):
-    repository.update(id, product.dict())
+    return repository.update(id, product.dict())
 
 
 @router.get('/{id}', response_model=ShowProductSchema)

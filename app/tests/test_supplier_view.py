@@ -1,49 +1,38 @@
 from fastapi.testclient import TestClient
 
 
-def test_supplier_create(client: TestClient):
-    response = client.post('/supplier/', json={
-        'name': 'Fornecedor 1'
-    })
+def test_supplier_create(client: TestClient, admin_auth_header):
+    response = client.post('/supplier/', headers=admin_auth_header,
+                           json={'name': 'Fornecedor 1'})
 
     assert response.status_code == 201
     assert response.json()['id'] == 1
 
 
-def test_supplier_get(client: TestClient):
-    response = client.post('/supplier/', json={
-        'name': 'Fornecedor 1'
-    })
-    assert response.status_code == 201
+def test_supplier_get(client: TestClient, supplier_factory, admin_auth_header):
+    supplier = supplier_factory()
 
-    response = client.get('/supplier/')
+    response = client.get('/supplier/', headers=admin_auth_header)
 
     assert response.status_code == 200
-    assert response.json()[0]['name'] == 'Fornecedor 1'
+    assert len(response.json()) == 1
+    assert response.json()[0]['name'] == supplier.name
 
 
-def test_supplier_update(client: TestClient):
-    response = client.post('/supplier/', json={
-        'name': 'Fornecedor 1'
-    })
+def test_supplier_update(client: TestClient, supplier_factory, admin_auth_header):
+    supplier = supplier_factory()
 
-    assert response.status_code == 201
-
-    response = client.put(
-        '/supplier/1', json={'name': 'Novo Fornecedor 1'}
-    )
+    response = client.put(f'/supplier/{supplier.id}',
+                          headers=admin_auth_header, json={'name': 'Novo Fornecedor 1'})
 
     assert response.status_code == 200
-    assert response.json()['name'] == 'Novo Fornecedor 1'
+    assert supplier.name == 'Novo Fornecedor 1'
 
 
-def test_supplier_get_id(client: TestClient):
-    response = client.post('/supplier/', json={
-        'name': 'Fornecedor 1'
-    })
-    assert response.status_code == 201
+def test_supplier_get_id(client: TestClient, supplier_factory, admin_auth_header):
+    supplier = supplier_factory()
 
-    response = client.get('/supplier/1')
+    response = client.get(f'/supplier/{supplier.id}', headers=admin_auth_header)
 
     assert response.status_code == 200
-    assert response.json()['name'] == 'Fornecedor 1'
+    assert response.json()['name'] == supplier.name
