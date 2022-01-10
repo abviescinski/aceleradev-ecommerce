@@ -3,12 +3,13 @@ from sqlalchemy.orm import sessionmaker
 from pathlib import Path
 #from sqlalchemy.orm.session import Session
 from sqlalchemy.ext.declarative import declarative_base
+from app.settings import settings
 
 
 DB_PATH = Path(__file__).resolve().parent
-SQLALCHEMY_DATABASE_URL = f'sqlite:///{DB_PATH}/database.db'
+#SQLALCHEMY_DATABASE_URL = f'sqlite:///{DB_PATH}/database.db'
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=True)
+engine = create_engine(settings.db_url, echo=True)
 
 Session = sessionmaker(bind=engine)
 
