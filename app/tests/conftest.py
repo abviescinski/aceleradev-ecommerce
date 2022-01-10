@@ -151,7 +151,6 @@ def address_factory(db_session, customer_factory):
         id = factory.Sequence(int)
         address = factory.Faker('street_name')
         city = factory.Faker('city')
-        # TODO: verificar porque state(2)
         state = factory.Faker('country_code')
         number = factory.Faker('building_number')
         zipcode = factory.Faker('postcode')
